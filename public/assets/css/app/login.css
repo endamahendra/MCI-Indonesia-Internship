@@ -1,0 +1,6 @@
+body {
+  background-image: url('/assets/img/bgimg.jpg'); /* Ganti path/to/background-image.jpg dengan path file gambar latar belakang Anda */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

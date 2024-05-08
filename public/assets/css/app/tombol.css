@@ -1,0 +1,23 @@
+/* Tambahkan CSS ini pada file CSS Anda atau di dalam tag <style> pada halaman HTML Anda */
+
+/* Efek saat hover pada ikon edit */
+.fa-pen-to-square:hover {
+    color: blue; /* Ganti dengan warna yang Anda inginkan */
+    cursor: pointer;
+}
+
+/* Efek saat tombol diklik pada ikon edit */
+.fa-pen-to-square:active {
+    color: purple; /* Ganti dengan warna yang Anda inginkan saat tombol diklik */
+}
+
+/* Efek saat hover pada ikon delete */
+.fa-trash:hover {
+    color: red; /* Ganti dengan warna yang Anda inginkan */
+    cursor: pointer;
+}
+
+/* Efek saat tombol diklik pada ikon delete */
+.fa-trash:active {
+    color: darkred; /* Ganti dengan warna yang Anda inginkan saat tombol diklik */
+}
