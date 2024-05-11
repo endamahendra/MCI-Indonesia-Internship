@@ -11,13 +11,16 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TravelPackageController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\ArtikelController;
 
 
 /////////////////////////////////////////ROUTE PUBLIC/////////////////////////////////////////////////////////
 //AUTH USER
 Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
 Route::post('/signin', [AuthUserController::class, 'login'])->name('login-user');
+
 Route::get('/product/datatables', [ProductController::class, 'getdata']);
+Route::get('/artikel/datatables', [ArtikelController::class, 'getdata']);
 
 ///////////////////////////////////////ROUTE UNTUK ADMIN DAN USER//////////////////////////////////////////////
 Route::middleware(['front', 'api'])->group(function () {
@@ -26,18 +29,19 @@ Route::middleware(['front', 'api'])->group(function () {
 
 /////////////////////////////////////// ROUTE UNTUK USER///////////////////////////////////////////////////////
 Route::middleware(['front'])->group(function () {
-// MASUKKAN ROUTE KESINI
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/penggunas/{id}', [PenggunaController::class, 'update']);
+    // MASUKKAN ROUTE KESINI
 });
 
 ///////////////////////////////////////ROUTE UNTUK ADMIN////////////////////////////////////////////////////////
 Route::middleware(['admin'])->group(function () {
 
-//PENGGUNA
-Route::get('/penggunas', [PenggunaController::class, 'index'])->name('pengguna');
+    //PENGGUNA
+    Route::get('/penggunas', [PenggunaController::class, 'index'])->name('pengguna');
+    Route::get('/pengguna/datatables', [PenggunaController::class, 'getdata']);
 Route::get('/penggunas/{id}', [PenggunaController::class, 'show']);
 Route::delete('/penggunas/{id}', [PenggunaController::class, 'destroy']);
-Route::get('/pengguna/datatables', [PenggunaController::class, 'getdata']);
-Route::post('/penggunas/{id}', [PenggunaController::class, 'update']);
 
 //DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -65,6 +69,10 @@ Route::post('/kategori-artikel', [KategoriArtikelController::class, 'store'])->n
 Route::put('/kategori-artikel/{id}', [KategoriArtikelController::class, 'update'])->name('kategori-artikel.update');
 Route::delete('/kategori-artikel/{id}', [KategoriArtikelController::class, 'destroy'])->name('kategori-artikel.destroy');
 
+//ARTIKEL
+Route::get('/artikel', [ArtikelController::class, 'index']);
+Route::post('/artikel', [ArtikelController::class, 'store']);
+
 //ADMIN
 Route::get('/admin', [UserController::class, 'index']);
 Route::get('/admin/datatables', [UserController::class, 'getdata']);
@@ -74,7 +82,6 @@ Route::put('/admin/{id}', [UserController::class, 'update']);
 Route::delete('/admin/{id}', [UserController::class, 'destroy']);
 
 //ORDER
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/datatables', [OrderController::class, 'getdata'])->name('orders.data');
 
@@ -90,3 +97,5 @@ Route::delete('/travel-package/{id}', [TravelPackageController::class, 'destroy'
 });
 
 require __DIR__.'/auth.php';
+
+

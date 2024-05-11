@@ -26,7 +26,7 @@
                     <i class="bi-plus-circle me-2"></i>Tambah Data
                 </button>
             </div>
-                <table class="table table-striped" id="tableKategoriArtikel">
+                <table class="table table-striped responsive" id="tableKategoriArtikel">
                     <thead>
                         <tr>
                             <th>Nama Kategori</th>

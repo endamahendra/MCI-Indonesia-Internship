@@ -57,7 +57,7 @@ class PenggunaController extends Controller
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $fileName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('pengguna'), $fileName); // Simpan dengan move
+            $photo->move(public_path('images/pengguna'), $fileName); // Simpan dengan move
             $user->photo = $fileName;
         }
 
@@ -88,7 +88,7 @@ class PenggunaController extends Controller
 
         // Hapus foto dari folder 'public/pengguna' jika ada
         if ($user->photo) {
-            unlink(public_path('pengguna/' . $user->photo));
+            unlink(public_path('images/pengguna/' . $user->photo));
         }
 
         $user->delete();

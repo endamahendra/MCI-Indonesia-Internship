@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-        protected $fillable = [
+    protected $fillable = [
         'user_id',
     ];
     public function user()
@@ -19,17 +19,8 @@ class Order extends Model
         return $this->belongsTo(OrderProduct::class);
     }
 
-    public function products()
+    public function products() 
     {
         return $this->belongsToMany(Product::class, 'order_product')->withPivot('quantity', 'total_harga');
     }
-
-    // public function getTotalHargaAttribute()
-    // {
-    //     $totalHarga = 0;
-    //     foreach ($this->products as $product) {
-    //         $totalHarga += $product->harga * $this->quantity;
-    //     }
-    //     return $totalHarga;
-    // }
 }

@@ -26,3 +26,4 @@ class product extends Model
         return $this->belongsToMany(Order::class, 'order_product');
     }
 }
+ 

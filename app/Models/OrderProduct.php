@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderProduct extends Model
 {
     protected $table = 'order_product';
-    // Relasi many-to-one dengan model Order
+    // Relasi many-to-one dengan model Order 
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -15,7 +15,7 @@ class OrderProduct extends Model
 
     // Relasi many-to-one dengan model Product
     public function product()
-    { 
+    {
         return $this->belongsTo(Product::class);
     }
 }

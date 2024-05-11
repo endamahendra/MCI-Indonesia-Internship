@@ -9,8 +9,8 @@
         });
 
         $('#tableKategoriArtikel').DataTable({
-            dom: 'Bfrtip',
-            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
+            // dom: 'Bfrtip',
+            // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
                 url: '/kategori-artikel/datatables',
                 type: 'GET',
@@ -67,15 +67,22 @@
                 });
             },
             error: function (error) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Gagal menyimpan data. Periksa kembali input Anda.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+            let errorMessage = '';
+            const errorData = error.responseJSON.error;
+            for (let key in errorData) {
+                if (errorData.hasOwnProperty(key)) {
+                    errorMessage += errorData[key][0] + '\n';
+                }
             }
-        });
-    }
+            Swal.fire({
+                title: 'Error',
+                text:  'Gagal menyimpan data, periksa kembali inputan anda.\n' + errorMessage,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+}
 
     //edit data product
     function editCategory(id) {

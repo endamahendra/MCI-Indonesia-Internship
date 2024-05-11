@@ -7,8 +7,6 @@ $(document).ready(function() {
     });
 
     $('#tableUser').DataTable({
-        dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         ajax: {
             url: '/pengguna/datatables',
             type: 'GET',
@@ -56,7 +54,7 @@ $(document).ready(function() {
                         // Ganti dengan gambar placeholder dari Lorem Picsum
                         $('#photoPengguna').attr('src', 'https://picsum.photos/200/300');
                     }
-                    
+
                 $('#detailModal').modal('show');
             },
             error: function(xhr, status, error) {

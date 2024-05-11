@@ -8,8 +8,8 @@
         });
 
         $('#tableProduct').DataTable({
-            dom: 'Bfrtip',
-            buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
+            // dom: 'Bfrtip',
+            // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
                 url: '/product/datatables',
                 type: 'GET',
@@ -37,13 +37,17 @@
                             return categories.join(', '); // Gabungkan nama kategori menjadi satu string
                         }
                     },
+                        {
+                            "data": "photo",
+                            "render": function(data, type, row, meta) {
+                                if(data) {
+                                    return '<img src="{{ asset('') }}' + data + '" alt="Product Image" style="width: 100px; height: auto;" />';
+                                } else {
+                                    return ''; // Jika tidak ada gambar, kembalikan string kosong
+                                }
+                            }
+                        },
 
-                                {
-                                    "data": "photo",
-                                    "render": function(data, type, row, meta) {
-                                        return '<img src="{{asset('photos')}}/' + data + '" alt="Product Image" style="width: 100px; height: auto;" />';
-                                    }
-                                },
 
                 {
                     data: 'created_at',
@@ -110,9 +114,16 @@ function saveProduct() {
             });
         },
         error: function (error) {
+            let errorMessage = '';
+            const errorData = error.responseJSON.error;
+            for (let key in errorData) {
+                if (errorData.hasOwnProperty(key)) {
+                    errorMessage += errorData[key][0] + '\n';
+                }
+            }
             Swal.fire({
                 title: 'Error',
-                text: 'Gagal menyimpan data. Periksa kembali input Anda.',
+                text:  'Gagal menyimpan data, periksa kembali inputan anda.\n' + errorMessage,
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -133,15 +144,20 @@ function editProduct(id) {
             $('#deskripsi').val(response.product.deskripsi);
             $('#harga').val(response.product.harga);
             $('#stok').val(response.product.stok);
+            // Menghapus semua opsi yang sudah ada pada elemen select
+            $('#category_id').empty();
 
-            // Set nilai category_id (jika diperlukan)
-            var categoryIds = response.product.category_id;
-            $('#category_id').val(categoryIds);
-            $('#category_id').trigger('change');
-
+            response.product.categories.forEach(function(category) {
+                // Buat elemen option baru untuk setiap kategori dan tambahkan ke dalam select
+                var option = $('<option></option>').attr('value', category.id).text(category.nama_kategori);
+                if (category.pivot) {
+                    option.prop('selected', true); // Tandai opsi yang sudah dipilih sebelumnya
+                }
+                $('#category_id').append(option);
+            });
             // Set foto jika ada
             if (response.product.photo) {
-                $('#photo').attr('src', '/photos/' + response.product.photo); // Atur atribut src untuk menampilkan gambar
+                $('#photo').attr('src', response.product.photo); // Atur atribut src untuk menampilkan gambar
             } else {
                 $('#photo').removeAttr('src'); // Hapus gambar jika tidak ada
             }
@@ -152,9 +168,16 @@ function editProduct(id) {
             $('#productFormModal').modal('show');
         },
         error: function (error) {
+            let errorMessage = '';
+            const errorData = error.responseJSON.error;
+            for (let key in errorData) {
+                if (errorData.hasOwnProperty(key)) {
+                    errorMessage += errorData[key][0] + '\n';
+                }
+            }
             Swal.fire({
                 title: 'Error',
-                text: 'Gagal mengambil data Product.',
+                text: errorMessage,
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

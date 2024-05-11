@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use DataTables;
 
@@ -21,14 +24,26 @@ class OrderController extends Controller
         return DataTables::of($orders)->make(true);
     }
 
-public function store(Request $request)
+    public function store(Request $request)
 {
+    // Mengambil user_id dari Auth
+    $token = $request->bearerToken();
+    $userData = JWTAuth::setToken($token)->getPayload()->toArray();
+    $user_id = $userData['sub'];
+
+    // Melakukan query untuk mendapatkan data pengguna
+    $user = User::findOrFail($user_id);
+
+    // Memeriksa apakah alamat dan nomor telepon tersedia
+    if (!$user->alamat || !$user->no_hp) {
+        return response()->json(['error' => 'Please provide complete address and phone number'], 400);
+    }
+
     // Validasi input
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'products' => 'required|array',
-        'products.*.id' => 'required|exists:products,id',
-        'products.*.quantity' => 'required|integer|min:1',
+    $validator = Validator::make($request->all(), [
+        'products' => 'required|array', // Ganti 'product_id' menjadi 'products'
+        'products.*.id' => 'required|exists:products,id', // Pastikan setiap produk yang dimasukkan valid
+        'products.*.quantity' => 'required|integer|min:1', // Validasi kuantitas produk
     ]);
 
     // Memulai transaksi database
@@ -37,12 +52,12 @@ public function store(Request $request)
 
         // Buat order baru
         $order = Order::create([
-            'user_id' => $request->user_id,
+            'user_id' => $user_id,
         ]);
 
         // Loop melalui setiap produk dalam pesanan
         foreach ($request->products as $product) {
-            $quantity = $product['quantity'];
+            $quantity = $product['quantity']; // Perbaiki pengambilan jumlah produk
             $productModel = Product::findOrFail($product['id']);
 
             // Pastikan stok cukup untuk order
@@ -55,12 +70,16 @@ public function store(Request $request)
             // Kurangi stok
             $productModel->decrement('stok', $quantity);
 
-            // Hitung total harga
+            // Hitung total harga untuk produk
             $total_harga = $productModel->harga * $quantity;
 
             // Simpan ke tabel order_product
             $order->products()->attach($product['id'], ['quantity' => $quantity, 'total_harga' => $total_harga]);
         }
+
+        // Hitung total harga order
+        $total_order_harga = $order->products()->sum('total_harga');
+        $order->update(['harga' => $total_order_harga]);
 
         // Commit transaksi jika semua operasi berhasil
         \DB::commit();
@@ -75,4 +94,5 @@ public function store(Request $request)
         return response()->json(['error' => 'Failed to create order: ' . $e->getMessage()], 500);
     }
 }
+
 }

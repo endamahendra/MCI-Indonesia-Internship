@@ -1,17 +1,17 @@
-<!-- Modal untuk Form Pengguna -->
+<!-- Modal untuk Form Admin -->
 <div class="modal fade" id="userFormModal" tabindex="-1" role="dialog" aria-labelledby="userFormModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userFormModalLabel">Form Tambah Pengguna</h5>
+                <h5 class="modal-title" id="userFormModalLabel">Form Tambah Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="row g-3" id="userForm">
                     @csrf
-                    <input type="hidden" id="id">
+                    <input type="hidden" id="id">papp
                     <div class="col-md-12">
-                        <input type="text" id="name" class="form-control" placeholder="Nama Pengguna">
+                        <input type="text" id="name" class="form-control" placeholder="Nama Admin">
                     </div>
                     <div class="col-md-12">
                         <input type="email" id="email" class="form-control" placeholder="Email">

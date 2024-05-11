@@ -7,8 +7,8 @@ $(document).ready(function() {
     });
 
     $('#tableUser').DataTable({
-        dom: 'Bfrtip',
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        // dom: 'Bfrtip',
+        // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         ajax: {
             url: '/admin/datatables',
             type: 'GET',
@@ -67,9 +67,16 @@ function saveUser() {
             });
         },
         error: function (error) {
+            let errorMessage = '';
+            const errorData = error.responseJSON.error;
+            for (let key in errorData) {
+                if (errorData.hasOwnProperty(key)) {
+                    errorMessage += errorData[key][0] + '\n';
+                }
+            }
             Swal.fire({
                 title: 'Error',
-                text: 'Gagal menyimpan data pengguna. Periksa kembali input Anda.',
+                text:  'Gagal menyimpan data, periksa kembali inputan anda.\n' + errorMessage,
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

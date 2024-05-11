@@ -46,7 +46,7 @@ public function store(Request $request)
         // Simpan foto ke direktori yang ditentukan
         $photo = $request->file('photo');
         $photoName = time() . '.' . $photo->getClientOriginalExtension();
-        $photo->move(public_path('photos'), $photoName);
+        $photo->move(public_path('images/product'), $photoName);
     } else {
         // Jika tidak ada file foto dalam request, kembalikan pesan kesalahan
         return response()->json(['error' => 'Photo not found in request'], 400);
@@ -58,7 +58,7 @@ public function store(Request $request)
         'deskripsi' => $request->input('deskripsi'),
         'harga' => $request->input('harga'),
         'stok' => $request->input('stok'),
-        'photo' => $photoName, // Simpan nama foto ke dalam basis data
+        'photo' => 'images/product/' . $photoName, // Simpan nama foto ke dalam basis data
     ]);
 
     // Simpan relasi produk dan kategori
@@ -87,12 +87,12 @@ public function update(Request $request, $id)
     }
     if ($request->hasFile('photo')) {
         if ($product->photo) {
-            unlink(public_path('photos/' . $product->photo));
+            unlink(public_path('images/product/' . $product->photo));
         }
         $photo = $request->file('photo');
         $photoName = time() . '.' . $photo->getClientOriginalExtension();
-        $photo->move(public_path('photos'), $photoName);
-        $product->photo = $photoName;
+        $photo->move(public_path('images/artikel'), $photoName);
+        $product->photo = 'images/product/' . $photoName;
     }
     $product->sku = $request->input('sku');
     $product->deskripsi = $request->input('deskripsi');
@@ -105,14 +105,14 @@ public function update(Request $request, $id)
 
         public function show($id)
         {
-            $product = Product::find($id);
+            $product = Product::with('categories')->find($id);
 
             if (!$product) {
                 return view('errors.404');
             }
-
             return response()->json(['product' => $product]);
         }
+
 public function destroy($id)
 {
     $product = Product::find($id);
@@ -123,7 +123,7 @@ public function destroy($id)
 
     // Hapus foto jika ada
     if ($product->photo) {
-        unlink(public_path('photos/' . $product->photo));
+        unlink(public_path('images/product/' . $product->photo));
     }
 
     // Hapus produk dari database
