@@ -11,6 +11,7 @@ use App\Models\TravelPackage;
 use App\Models\UserWisataReward;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use DataTables;
 
@@ -89,7 +90,7 @@ class OrderController extends Controller
             $order->update(['harga' => $total_order_harga]);
 
             // Cek dan update rewards
-            // $this->checkRewards($user_id);
+            $this->checkRewards($user_id);
 
             // Pesan WhatsApp
             $message = "Selamat siang, saya ingin memesan produk:\n\n";
@@ -150,5 +151,25 @@ class OrderController extends Controller
                 }
             }
         }
+    }
+
+    public function getBestSellingProducts()
+    {
+        $bestSellingProducts = OrderProduct::select('product_id', DB::raw('SUM(quantity) as total_sold'))
+            ->groupBy('product_id')
+            ->orderByDesc('total_sold')
+            ->limit(10)
+            ->get();
+
+        $productIds = $bestSellingProducts->pluck('product_id');
+        $products = Product::whereIn('id', $productIds)->get();
+
+        $bestSellingProducts = $bestSellingProducts->map(function ($item) use ($products) {
+            $product = $products->where('id', $item->product_id)->first();
+            $item->product = $product;
+            return $item;
+        });
+
+        return response()->json(['best_selling_products' => $bestSellingProducts]);
     }
 }

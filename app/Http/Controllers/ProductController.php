@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\product;
 use App\Models\Category;
 use App\Models\CategoryProduct;
+use App\Models\OrderProduct;
 use Validator;
 use DataTables;
 use Illuminate\Support\Facades\DB;
@@ -171,43 +172,45 @@ public function destroy($id)
     return response()->json([], 204);
 }
 
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $sortBy = $request->input('sort_by', 'harga');
-        $order = $request->input('order', 'asc');
+public function search(Request $request)
+{
+    $search = $request->input('query');
+    $orderBy = $request->input('orderBy', 'default');
 
-        if (!$query) {
-            return response()->json(['error' => 'Search query is required'], 400);
-        }
+    // penggunaan closure
+    $query = Product::leftJoin('order_product', 'products.id', '=', 'order_product.product_id')
+        ->leftJoin('ratings', 'products.id', '=', 'ratings.product_id')
+        ->select('products.*', DB::raw('SUM(order_product.quantity) as total_quantity'), DB::raw('AVG(ratings.rating) as avg_rating'))
+        ->where(function($query) use ($search) {
+            $query->where('products.sku', 'like', '%' . $search . '%')
+                  ->orWhere('products.deskripsi', 'like', '%' . $search . '%');
+        })
+        ->groupBy('products.id');
 
-        $products = Product::where('sku', 'LIKE', "%$query%")
-            ->orWhere('deskripsi', 'LIKE', "%$query%")
-            ->get();
-
-        foreach ($products as $product) {
-            $ratings = $product->users()->pluck('rating');
-            $totalRatings = $ratings->count();
-            $averageRating = $ratings->avg();
-            $product->average_rating = $averageRating ?? 0;
-            $product->total_ratings = $totalRatings;
-        }
-
-        if ($products->isEmpty()) {
-            return response()->json(['message' => 'Produk tidak ditemukan'], 404);
-        }
-
-        // Sorting products based on the sort_by and order parameters
-        if ($sortBy === 'harga' || $sortBy === 'average_rating') {
-            if ($order === 'asc' || $order === 'desc') {
-                $products = $products->sortBy($sortBy, SORT_REGULAR, $order === 'desc');
-            } else {
-                return response()->json(['error' => 'Invalid order parameter'], 400);
-            }
-        } else {
-            return response()->json(['error' => 'Invalid sort_by parameter'], 400);
-        }
-
-        return response()->json(['products' => $products->values()]);
+    // Mengatur urutan pengelompokan berdasarkan parameter tertentu
+    if ($orderBy === 'price_asc') {
+        $query->orderBy('products.harga');
+    } elseif ($orderBy === 'price_desc') {
+        $query->orderByDesc('products.harga');
+    } elseif ($orderBy === 'rating_asc') {
+        $query->orderBy('avg_rating');
+    } elseif ($orderBy === 'rating_desc') {
+        $query->orderByDesc('avg_rating');
+    } else {
+        // Default sorting (by total_quantity)
+        $query->orderByDesc('total_quantity');
     }
+
+    $products = $query->get();
+
+    if ($products->isEmpty()) {
+        return response()->json(['message' => 'Tidak ada produk yang cocok dengan kriteria yang anda cari.']);
+    }
+
+    return response()->json(['products' => $products]);
 }
+
+
+
+
+ }

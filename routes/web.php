@@ -24,6 +24,7 @@ Route::post('/signin', [AuthUserController::class, 'login'])->name('login-user')
 
 //PENCARIAN PRODUK
 Route::get('/products/search', [ProductController::class, 'search']);
+Route::get('products/best-selling', [OrderController::class, 'getBestSellingProducts'])->name('products.best-selling');
 
 //GOOGLE LOGIN
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
