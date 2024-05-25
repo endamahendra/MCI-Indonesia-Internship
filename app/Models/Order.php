@@ -9,6 +9,7 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'link',
     ];
     public function user()
     {
@@ -19,7 +20,7 @@ class Order extends Model
         return $this->belongsTo(OrderProduct::class);
     }
 
-    public function products() 
+    public function products()
     {
         return $this->belongsToMany(Product::class, 'order_product')->withPivot('quantity', 'total_harga');
     }

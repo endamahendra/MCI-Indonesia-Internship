@@ -94,7 +94,7 @@
             $('#nama_kategori').val(response.category.nama_kategori);
             $('#deskripsi').val(response.category.deskripsi);
             // Mengisi formulir dengan data yang akan diedit
-            $('#categoryFormModalLabel').text('Form Edit Data Pelanggan');
+            $('#categoryFormModalLabel').text('Form Edit Data Kategori');
             $('#simpan').text('Simpan Perubahan');
             $('#categoryFormModal').modal('show');
         },
@@ -164,7 +164,7 @@
 
     //fungsi untuk menghapus isi form yang sudah diisi
     function clearForm() {
-    $('#categoryFormModalLabel').text('Form Tambah Data Pelanggan');
+    $('#categoryFormModalLabel').text('Form Tambah Data Kategori');
     $('#simpan').text('Simpan');
     $('#nama_kategori').val('');
     $('#deskripsi').val('');

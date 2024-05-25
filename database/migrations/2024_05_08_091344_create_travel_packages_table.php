@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('deskripsi');
             $table->date('tanggal');
-            $table->decimal('harga', 10, 2);
+            $table->integer('target');
             $table->string('photo')->nullable();
             $table->timestamps();
         });

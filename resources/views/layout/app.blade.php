@@ -9,7 +9,7 @@
   <meta content="" name="keywords">
   <meta name="csrf-token" content="{{ csrf_token() }}">
       {{-- Loads Roboto --}}
-    @googlefonts
+    {{-- @googlefonts --}}
 
   <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
@@ -21,6 +21,7 @@
 <script src="{{asset('assets/css/app/jquery-ui.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script> --}}
 @yield('css')
 
   <!-- =======================================================

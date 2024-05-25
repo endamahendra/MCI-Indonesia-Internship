@@ -12,7 +12,12 @@ class TravelPackage extends Model
     protected $fillable = [
         'deskripsi',
         'tanggal',
-        'harga',
+        'target',
         'photo',
     ];
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_wisata_rewards');
+    }
+
 }

@@ -27,7 +27,7 @@ public function store(Request $request)
         $validator = Validator::make($request->all(), [
             'deskripsi' => 'required',
             'tanggal' => 'required|date',
-            'harga' => 'required|numeric',
+            'target' => 'required|numeric',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk foto
         ]);
 
@@ -41,8 +41,8 @@ public function store(Request $request)
         $travelPackage = TravelPackage::create([
             'deskripsi' => $request->deskripsi,
             'tanggal' => $request->tanggal,
-            'harga' => $request->harga,
-            'photo' => $photoPath->getFilename(),
+            'target' => $request->target,
+            'photo' => 'images/travel/'.$photoPath->getFilename(),
         ]);
 
         return response()->json(['travel_package' => $travelPackage]);
@@ -53,7 +53,7 @@ public function store(Request $request)
         $validator = Validator::make($request->all(), [
             'deskripsi' => 'required',
             'tanggal' => 'required|date',
-            'harga' => 'required|numeric',
+            'target' => 'required|numeric',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk foto (opsional)
         ]);
 
@@ -73,14 +73,14 @@ public function store(Request $request)
             $photoPath = $photo->move(public_path('images/travel'), uniqid() . '.' . $photo->getClientOriginalExtension());
             // Hapus foto lama dari storage
             if ($travelPackage->photo) {
-                unlink(public_path('images/travel/' . $travelPackage->photo));
+                unlink(public_path($travelPackage->photo));
             }
-            $travelPackage->photo = $photoPath->getFilename();
+            $travelPackage->photo = 'images/travel/'.$photoPath->getFilename();
         }
 
         $travelPackage->deskripsi = $request->deskripsi;
         $travelPackage->tanggal = $request->tanggal;
-        $travelPackage->harga = $request->harga;
+        $travelPackage->target = $request->target;
         $travelPackage->save();
 
         return response()->json(['travel_package' => $travelPackage]);
@@ -103,13 +103,11 @@ public function store(Request $request)
 
         if (!$travelPackage) {
             return response()->json(['error' => 'Travel package not found'], 404);
+        }else{
+                unlink(public_path($travelPackage->photo));
+                $travelPackage->delete();
         }
-
-        // Hapus foto dari storage
-        Storage::delete($travelPackage->photo);
-
         // Hapus travel package dari database
-        $travelPackage->delete();
 
         return response()->json([], 204);
     }

@@ -33,7 +33,7 @@
                         <tr>
                             <th>Deskripsi</th>
                             <th>Tanggal</th>
-                            <th>Harga</th>
+                            <th>Target</th>
                             <th>Photo</th>
                             <th>Dibuat pada</th>
                             <th>Aksi</th>

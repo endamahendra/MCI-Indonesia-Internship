@@ -42,8 +42,10 @@
                             <th>Deskripsi</th>
                             <th>Harga</th>
                             <th>Stok</th>
+                            <th>Diskon</th>
                             <th>Kategori</th>
                             <th>Photo</th>
+                            <th>Rating</th>
                             <th>Dibuat pada</th>
                             <th>Aksi</th>
                         </tr>

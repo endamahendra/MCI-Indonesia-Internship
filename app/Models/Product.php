@@ -15,6 +15,7 @@ class product extends Model
         'harga',
         'stok',
         'photo',
+        'diskon',
     ];
 
     public function categories()
@@ -25,5 +26,8 @@ class product extends Model
     {
         return $this->belongsToMany(Order::class, 'order_product');
     }
+    public function users() 
+    {
+        return $this->belongsToMany(User::class, 'ratings')->withPivot('rating')->withTimestamps();
+    }
 }
- 

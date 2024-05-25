@@ -20,7 +20,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-            <h6 class="card-title">Data Kategori</h6>
+            <h5 class="card-title">Data Kategori</h5>
             <div style="margin-bottom: 10px;">
                 <button type="button" class="btn btn-primary" onclick="clearForm(); $('#categoryFormModal').modal('show');">
                     <i class="bi-plus-circle me-2"></i>Tambah Data

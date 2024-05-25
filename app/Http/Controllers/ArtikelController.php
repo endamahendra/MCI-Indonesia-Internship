@@ -23,40 +23,146 @@ class ArtikelController extends Controller
         $artikels = Artikel::with('kategoriartikels', 'user')->get();
         return DataTables::of($artikels)->make(true);
     }
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'kategoriartikel_id' => 'required|array',
-            'judul' => 'required',
-            'konten' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
+        public function show($id)
+        {
+            $artikel = Artikel::with('kategoriartikels')->find($id);
+
+            if (!$artikel) {
+                return view('errors.404');
             }
+            return response()->json(['artikel' => $artikel]);
+        }
+        public function store(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'kategoriartikel_id' => 'required|array',
+        'judul' => 'required',
+        'konten' => 'required',
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+    if ($validator->fails()) {
+        return response()->json([
+            'data' => null,
+            'code' => 400,
+            'message' => 'Validation Error',
+            'error' => $validator->errors()
+        ], 400);
+    }
 
-        try {
-            \DB::beginTransaction();
+    try {
+        \DB::beginTransaction();
 
+        $image = $request->file('photo');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images/artikel'), $imageName);
+
+        $artikel = Artikel::create([
+            'user_id' => Auth::id(),
+            'judul' => $request->judul,
+            'konten' => $request->konten,
+            'photo' => 'images/artikel/' . $imageName,
+        ]);
+
+        $artikel->kategoriartikels()->attach($request->input('kategoriartikel_id'));
+
+        \DB::commit();
+        return response()->json([
+            'data' => $artikel,
+            'code' => 201,
+            'message' => 'Artikel created successfully',
+        ], 201);
+    } catch (\Exception $e) {
+        \DB::rollBack();
+        return response()->json([
+            'data' => null,
+            'code' => 500,
+            'message' => 'Failed to create Artikel',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+public function update(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'kategoriartikel_id' => 'required|array',
+        'judul' => 'required',
+        'konten' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'data' => null,
+            'code' => 400,
+            'message' => 'Validation Error',
+            'error' => $validator->errors()
+        ], 400);
+    }
+
+    try {
+        \DB::beginTransaction();
+
+        $artikel = Artikel::findOrFail($id);
+
+        $artikel->judul = $request->judul;
+        $artikel->konten = $request->konten;
+
+        if ($request->hasFile('photo')) {
+            if ($artikel->photo) {
+                unlink(public_path($artikel->photo));
+            }
             $image = $request->file('photo');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('images/artikel'), $imageName);
-
-            $artikel = Artikel::create([
-                'user_id' => Auth::id(),
-                'judul' => $request->judul,
-                'konten' => $request->konten,
-                'photo' => 'images/artikel/' . $imageName,
-                // 'tanggal' => Carbon::now(),
-            ]);
-
-            $artikel->kategoriartikels()->attach($request->input('kategoriartikel_id'));
-
-            \DB::commit();
-            return response()->json(['message' => 'Artikel created successfully'], 201);
-        } catch (\Exception $e) {
-            \DB::rollBack();
-            return response()->json(['error' => 'Failed to create Artikel: ' . $e->getMessage()], 500);
+            $artikel->photo = 'images/artikel/' . $imageName;
         }
+
+        $artikel->save();
+
+        $artikel->kategoriartikels()->sync($request->input('kategoriartikel_id'));
+
+        \DB::commit();
+        return response()->json([
+            'data' => $artikel,
+            'code' => 200,
+            'message' => 'Artikel updated successfully',
+        ], 200);
+    } catch (\Exception $e) {
+        \DB::rollBack();
+        return response()->json([
+            'data' => null,
+            'code' => 500,
+            'message' => 'Failed to update Artikel',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
+public function destroy($id)
+{
+    $artikel = Artikel::find($id);
+
+    if (!$artikel) {
+        return response()->json([
+            'data' => null,
+            'code' => 404,
+            'message' => 'Data not found',
+            'error' => 'Data not found'
+        ], 404);
+    }
+
+    if ($artikel->photo) {
+        unlink(public_path($artikel->photo));
+    }
+
+    $artikel->delete();
+
+    return response()->json([
+        'data' => null,
+        'code' => 204,
+        'message' => 'Artikel deleted successfully',
+    ], 204);
+}
+
+
 }

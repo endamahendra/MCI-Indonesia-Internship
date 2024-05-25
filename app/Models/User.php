@@ -77,4 +77,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Artikel::class);
     }
+    public function travelPackages()
+{
+    return $this->belongsToMany(TravelPackage::class, 'user_wisata_rewards');
+}
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'ratings')->withPivot('rating')->withTimestamps();
+    }
 }

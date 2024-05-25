@@ -17,7 +17,7 @@
                         <input type="date" id="tanggal" class="form-control" placeholder="Tanggal">
                     </div>
                     <div class="col-md-12">
-                        <input type="number" id="harga" class="form-control" placeholder="Harga">
+                        <input type="number" id="target" class="form-control" placeholder="Target">
                     </div>
                     <div class="col-md-12">
                         <input type="file" id="photo" class="form-control">

@@ -21,8 +21,8 @@
                                 <li class="list-group-item"><strong>Tanggal Lahir:</strong> <span id="tanggalLahirPengguna"></span></li>
                                 <li class="list-group-item"><strong>No. HP:</strong> <span id="noHpPengguna"></span></li>
                                 <li class="list-group-item"><strong>Alamat:</strong> <span id="alamatPengguna"></span></li>
-                                <li class="list-group-item"><strong>Total Order:</strong> 10</li>
-                                <li class="list-group-item"><strong>Total Amount:</strong> $500</li>
+                                {{-- <li class="list-group-item"><strong>Total Order:</strong> 10</li> --}}
+                                {{-- <li class="list-group-item"><strong>Total Amount:</strong> $500</li> --}}
                             </ul>
                         </div>
                     </div>

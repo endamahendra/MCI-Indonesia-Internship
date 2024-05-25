@@ -117,19 +117,32 @@ function saveArtikel() {
     // Edit data artikel
     function editArtikel(id) {
         $.ajax({
-            url: '/artikels/' + id,
+            url: '/artikel/' + id,
             type: 'GET',
             success: function (response) {
                 // Mengisi formulir dengan data yang akan diedit
-                $('#id').val(response.id);
-                $('#judul').val(response.judul);
-                $('#konten').val(response.konten);
-                $('#photo-preview').attr('src', response.photo);
-                $('#user_id').val(response.user_id);
-                var kategoriIds = response.kategoriartikels.map(function(kategori) {
-                    return kategori.id;
-                });
-                $('#kategoriartikels').val(kategoriIds);
+                $('#id').val(response.artikel.id);
+                $('#judul').val(response.artikel.judul);
+                // $('#konten').val(response.artikel.konten);
+                $('#konten').summernote('code', response.artikel.konten);
+                $('#photo-preview').attr('src', response.artikel.photo);
+                $('#user_id').val(response.artikel.user_id);
+                // var kategoriIds = response.kategoriartikels.map(function(kategori) {
+                //     return kategori.id;
+                // });
+                // $('#kategoriartikels').val(kategoriIds);
+
+            var selectedCategories = response.artikel.kategoriartikels.filter(function(category) {
+                return category.pivot;
+            }).map(function(category) {
+                return category.id.toString();
+            });
+            $('#kategoriartikels option').each(function() {
+                if (selectedCategories.indexOf($(this).val()) !== -1) {
+                    $(this).prop('selected', true);
+                }
+            });
+            
                 $('#artikelFormModalLabel').text('Form Edit Artikel');
                 $('#simpanArtikel').text('Simpan Perubahan');
                 $('#artikelFormModal').modal('show');
@@ -161,7 +174,7 @@ function saveArtikel() {
             if (result.isConfirmed) {
                 // Jika pengguna mengonfirmasi penghapusan
                 $.ajax({
-                    url: '/artikels/' + id,
+                    url: '/artikel/' + id,
                     type: 'DELETE',
                     success: function (response) {
                         // Menampilkan notifikasi sukses

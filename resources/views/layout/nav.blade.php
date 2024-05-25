@@ -47,20 +47,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::url() !== url('/orders')) ? 'collapsed' : '' }}" data-bs-target="#transaksi" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-menu-button-wide"></i><span>Data Transaksi</span><i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                    <ul id="transaksi" class="nav-content {{ (Request::url() !== url('/orders')) ? 'collapse' : '' }}" data-bs-parent="#sidebar-nav">
-                        <li>
-                            <a href="/orders" class="{{ Request::url() == url('/orders') ? 'active' : '' }}">
-                                <i class="bi bi-circle"></i><span>Orders</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
-                 <li class="nav-item">
+                <li class="nav-item">
                         <a class="nav-link {{ ( Request::url() !== url('/travel-package')) ? 'collapsed' : '' }}" data-bs-target="#paketWisata" data-bs-toggle="collapse" href="#">
                             <i class="bi bi-menu-button-wide"></i><span>Paket Wisata</span><i class="bi bi-chevron-down ms-auto"></i>
                         </a>
@@ -91,5 +79,22 @@
                             </ul>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ (Request::url() !== url('/orders') && Request::url() !== url('/reward')) ? 'collapsed' : '' }}" data-bs-target="#transaksi" data-bs-toggle="collapse" href="#">
+                            <i class="bi bi-menu-button-wide"></i><span>Data Transaksi</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="transaksi" class="nav-content {{ (Request::url() !== url('/orders') && Request::url() !== url('/reward')) ? 'collapse' : '' }}" data-bs-parent="#sidebar-nav">
+                            <li>
+                                <a href="/orders" class="{{ Request::url() == url('/orders') ? 'active' : '' }}">
+                                    <i class="bi bi-circle"></i><span>Orders</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/reward" class="{{ Request::url() == url('/reward') ? 'active' : '' }}">
+                                    <i class="bi bi-circle"></i><span>Reward</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 </ul>
 </aside>

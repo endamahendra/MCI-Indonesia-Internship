@@ -4,37 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Jobs\ProcessLogin; // Import job ProcessLogin
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-public function store(LoginRequest $request)
-{
-    $request->authenticate();
-    // $request->session()->regenerate();
-    $user = Auth::user();
-    // Buat token
-    $token = JWTAuth::fromUser($user);
-    // Simpan token ke database
-    $user->api_token = $token;
-    $user->save();
-    return redirect('/dashboard');
-}
+    public function store(LoginRequest $request)
+    {
+        $request->authenticate();
+        $user = Auth::user();
+
+        // Memasukkan proses login ke dalam antrian
+        ProcessLogin::dispatch($user);
+
+        return redirect('/dashboard');
+    }
 
     /**
      * Destroy an authenticated session.
@@ -47,6 +39,6 @@ public function store(LoginRequest $request)
 
         $request->session()->regenerateToken();
 
-        return redirect('/admin-login');
+        return redirect('/');
     }
 }

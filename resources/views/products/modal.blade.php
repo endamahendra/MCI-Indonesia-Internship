@@ -22,6 +22,9 @@
                     <div class="col-md-12">
                         <input type="number" id="stok" class="form-control" placeholder="Stok">
                     </div>
+                    <div class="col-md-12">
+                        <input type="number" id="diskon" class="form-control" placeholder="diskon">
+                    </div>
                      <div class="col-md-12">
                         <select class="s-example-basic-multiple" id="category_id" multiple="multiple" >
                             @foreach($categorys as $category)
@@ -48,7 +51,10 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#category_id').select2();
+    $('#category_id').select2({
+        placeholder: "Pilih Kategori",
+        allowClear: true
+    });
 });
 </script>
 

@@ -28,11 +28,17 @@
                     }
                 },
                 { data: 'stok' },
-                    {
-                        data: 'categories',
-                        render: function (data, type, row) {
-                            var categories = data.map(function(category) {
-                                return category.nama_kategori;
+                {
+                    data: 'diskon',
+                    render: function(data, type, row) {
+                        return data + '%'; // menambahkan simbol persen di belakang nilai diskon
+                    }
+                },
+                {
+                    data: 'nama_kategori',
+                    render: function (data, type, row) {
+                        var categories = data.map(function(nama_kategori) {
+                                return nama_kategori;
                             });
                             return categories.join(', '); // Gabungkan nama kategori menjadi satu string
                         }
@@ -47,7 +53,7 @@
                                 }
                             }
                         },
-
+                        { data: 'rating'},
 
                 {
                     data: 'created_at',
@@ -80,6 +86,7 @@ function saveProduct() {
     formData.append('deskripsi', $('#deskripsi').val());
     formData.append('harga', $('#harga').val());
     formData.append('stok', $('#stok').val());
+    formData.append('diskon', $('#diskon').val());
 
     // Hanya menambahkan file foto ke FormData jika ada file yang dipilih
     var photoFile = $('#photo')[0].files[0];
@@ -131,30 +138,29 @@ function saveProduct() {
     });
 }
 
-
-    //edit data product
 function editProduct(id) {
     $.ajax({
         url: '/product/' + id,
         type: 'GET',
         success: function (response) {
-            // Set nilai-nlai produk ke dalam elemen-elemen formulir
             $('#id').val(response.product.id);
             $('#sku').val(response.product.sku);
             $('#deskripsi').val(response.product.deskripsi);
             $('#harga').val(response.product.harga);
             $('#stok').val(response.product.stok);
-            // Menghapus semua opsi yang sudah ada pada elemen select
-            $('#category_id').empty();
+            $('#diskon').val(response.product.diskon);
 
-            response.product.categories.forEach(function(category) {
-                // Buat elemen option baru untuk setiap kategori dan tambahkan ke dalam select
-                var option = $('<option></option>').attr('value', category.id).text(category.nama_kategori);
-                if (category.pivot) {
-                    option.prop('selected', true); // Tandai opsi yang sudah dipilih sebelumnya
-                }
-                $('#category_id').append(option);
+            var selectedCategories = response.product.categories.filter(function(category) {
+                return category.pivot;
+            }).map(function(category) {
+                return category.id.toString();
             });
+            $('#category_id option').each(function() {
+                if (selectedCategories.indexOf($(this).val()) !== -1) {
+                    $(this).prop('selected', true);
+                }
+            });
+
             // Set foto jika ada
             if (response.product.photo) {
                 $('#photo').attr('src', response.product.photo); // Atur atribut src untuk menampilkan gambar
@@ -183,10 +189,10 @@ function editProduct(id) {
             });
         }
     });
+    $('#productFormModal').on('hidden.bs.modal', function (e) {
+        clearForm();
+    });
 }
-
-
-
     function deleteProduct(id) {
         // Menampilkan modal konfirmasi penghapusan
         Swal.fire({
@@ -228,7 +234,7 @@ function editProduct(id) {
                         } else {
                             Swal.fire({
                                 title: 'Error',
-                                text: 'Gagal menghapus data jenjang.',
+                                text: 'Gagal menghapus data product.',
                                 icon: 'error',
                                 confirmButtonText: 'OK'
                             });
@@ -245,10 +251,11 @@ function editProduct(id) {
     $('#simpanProduct').text('Simpan');
     $('#id').val('');
     $('#sku').val('');
+    $('#diskon').val('');
     $('#deskripsi').val('');
     $('#harga').val('');
     $('#stok').val('');
-    $('#category_id').val('');
+    $('#category_id').val(null).trigger('change');
     $('#photo').val('');
  }
 </script>
