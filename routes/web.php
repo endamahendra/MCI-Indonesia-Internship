@@ -24,7 +24,7 @@ Route::middleware(['cors'])->group(function () {
     Route::get('/f/product', [FrontController::class, 'product'])->name('product');
 
 
-    Route::get('/product/all', [ProductController::class, 'all']);
+    Route::get('/product/datatables', [ProductController::class, 'all']);
     Route::get('/kategori/all', [CategoryController::class, 'all']);
     Route::get('/products/search', [ProductController::class, 'search']);
     Route::get('products/best-selling', [OrderController::class, 'getBestSellingProducts'])->name('products.best-selling');
