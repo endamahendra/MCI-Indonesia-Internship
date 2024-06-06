@@ -11,7 +11,7 @@
             // dom: 'Bfrtip',
             // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
-                url: '/product/datatables',
+                url: '/product/all',
                 type: 'GET',
                 "serverSide": true,
                 "processing": true,
@@ -53,7 +53,7 @@
                                 }
                             }
                         },
-                        { data: 'rating'},
+                        { data: 'average_rating'},
 
                 {
                     data: 'created_at',

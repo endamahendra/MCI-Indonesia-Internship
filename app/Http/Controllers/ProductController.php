@@ -20,31 +20,27 @@ class ProductController extends Controller
         return view('products.index', compact('categorys'));
     }
 
-public function getdata()
+public function all()
 {
-    $products = Product::get();
-    foreach ($products as $product) {
+    $products = Product::all();
+    $products->each(function($product) {
         $ratings = $product->users()->pluck('rating');
         $ratingcategories = $product->categories()->pluck('nama_kategori');
         $totalRatings = $ratings->count();
         $maxRating = 5;
         $averageRating = $ratings->avg();
-        $product->average_rating = $averageRating;
+        $product->average_rating = $averageRating ?? "belum ada rating";
         $product->total_ratings = $totalRatings;
         $product->max_rating = $maxRating;
         $product->nama_kategori = $ratingcategories;
-    }
+    });
 
-    return DataTables::of($products)
-        ->addColumn('rating', function ($product) {
-            if ($product->average_rating) {
-                return number_format($product->average_rating, 1) . '/' . $product->max_rating . ' of ' . $product->total_ratings . ' Pelanggan';
-            } else {
-                return 'Belum ada rating';
-            }
-        })
-        ->make(true);
+    return response()->json([
+        'data' => $products,
+        'status' => 'success',
+    ]);
 }
+
 
 
 public function store(Request $request)
@@ -210,7 +206,5 @@ public function search(Request $request)
     return response()->json(['products' => $products]);
 }
 
-
-
-
  }
+
