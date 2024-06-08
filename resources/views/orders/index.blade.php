@@ -31,6 +31,7 @@
                             <th>Harga/satuan</th>
                             <th>Quantity</th>
                             <th>Total Harga</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

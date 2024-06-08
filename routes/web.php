@@ -21,10 +21,11 @@ use App\Http\Controllers\FrontController;
 
 Route::middleware(['cors'])->group(function () {
     Route::get('/', [FrontController::class, 'index'])->name('home');
-    Route::get('/f/product', [FrontController::class, 'product'])->name('product');
+    Route::get('/f/products', [FrontController::class, 'product'])->name('product');
     Route::get('/product/datatables', [ProductController::class, 'all']);
     Route::get('/kategori/all', [CategoryController::class, 'all']);
     Route::get('/products/search', [ProductController::class, 'search']);
+    Route::get('/f/products/search', [ProductController::class, 'fsearch']);
     Route::get('products/best-selling', [OrderController::class, 'getBestSellingProducts'])->name('products.best-selling');
     Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
     Route::post('/signin', [AuthUserController::class, 'login'])->name('login-user');
@@ -56,7 +57,7 @@ Route::middleware(['front'])->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::post('/penggunas/{id}', [PenggunaController::class, 'update']);
     Route::get('/pengguna/{id}', [PenggunaController::class, 'showuser']);
-    // MASUKKAN ROUTE KESINI
+
 });
 
 ///////////////////////////////////////ROUTE UNTUK ADMIN////////////////////////////////////////////////////////

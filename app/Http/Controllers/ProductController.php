@@ -182,8 +182,10 @@ public function search(Request $request)
         ->leftJoin('ratings', 'products.id', '=', 'ratings.product_id')
         ->select('products.*', DB::raw('SUM(order_product.quantity) as total_quantity'), DB::raw('AVG(ratings.rating) as avg_rating'))
         ->where(function($query) use ($search) {
-            $query->where('products.sku', 'like', '%' . $search . '%')
-                  ->orWhere('products.deskripsi', 'like', '%' . $search . '%');
+            if ($search) {
+                $query->where('products.sku', 'like', '%' . $search . '%')
+                      ->orWhere('products.deskripsi', 'like', '%' . $search . '%');
+            }
         })
         ->groupBy('products.id');
 
@@ -209,6 +211,39 @@ public function search(Request $request)
 
     return response()->json(['products' => $products]);
 }
+
+public function fsearch(Request $request)
+{
+    $search = $request->input('query');
+    $orderBy = $request->input('orderBy', 'default');
+
+    $query = Product::query();
+
+    if ($search) {
+        $query->where('sku', 'like', '%' . $search . '%')
+              ->orWhere('deskripsi', 'like', '%' . $search . '%');
+    }
+
+    // Mengatur urutan pengelompokan berdasarkan parameter tertentu
+    if ($orderBy === 'price_asc') {
+        $query->orderBy('harga');
+    } elseif ($orderBy === 'price_desc') {
+        $query->orderByDesc('harga');
+    } elseif ($orderBy === 'rating_asc') {
+        $query->orderBy('avg_rating');
+    } elseif ($orderBy === 'rating_desc') {
+        $query->orderByDesc('avg_rating');
+    } else {
+        // Default sorting (by total_quantity)
+        $query->orderByDesc('total_quantity');
+    }
+
+    $products = $query->get();
+
+    return view('front.product', compact('products'));
+}
+
+
 
  }
 

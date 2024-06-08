@@ -21,7 +21,7 @@
                             <a class="nav-link" href="/about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/f/product">Product</a>
+                            <a class="nav-link" href="/f/products">Product</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/news">News</a>
