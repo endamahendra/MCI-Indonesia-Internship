@@ -22,8 +22,6 @@ use App\Http\Controllers\FrontController;
 Route::middleware(['cors'])->group(function () {
     Route::get('/', [FrontController::class, 'index'])->name('home');
     Route::get('/f/product', [FrontController::class, 'product'])->name('product');
-
-
     Route::get('/product/datatables', [ProductController::class, 'all']);
     Route::get('/kategori/all', [CategoryController::class, 'all']);
     Route::get('/products/search', [ProductController::class, 'search']);

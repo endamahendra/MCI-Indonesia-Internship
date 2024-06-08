@@ -13,18 +13,14 @@
             <div class="container">
                 <div class="row p-5">
                     <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="{{asset('frontend')}}/assets/img/banner_img_01.jpg" alt="">
+                        <img class="img-fluid" src="{{asset('frontend')}}/assets/img/banner_img_02.png" alt="">
                     </div>
                     <div class="col-lg-6 mb-0 d-flex align-items-center">
                         <div class="text-align-left align-self-center">
-                            <h1 class="h1 text-success"><b>Zay</b> eCommerce</h1>
-                                <h3 class="h2">Tiny and Perfect eCommerce Template</h3>
+                            <h1 class="h1 text">Need Reasons to Love <b>MCI?</b></h1>
+                                <h3 class="h2">Proff not Promise</h3>
                                 <p>
-                                    Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1).
-                                    This template is 100% free provided by <a rel="sponsored" class="text-success" href="{{asset('frontend')}}/https://templatemo.com" target="_blank">TemplateMo</a> website.
-                                    Image credits go to <a rel="sponsored" class="text-success" href="{{asset('frontend')}}/https://stories.freepik.com/" target="_blank">Freepik Stories</a>,
-                                    <a rel="sponsored" class="text-success" href="{{asset('frontend')}}/https://unsplash.com/" target="_blank">Unsplash</a> and
-                                    <a rel="sponsored" class="text-success" href="{{asset('frontend')}}/https://icons8.com/" target="_blank">Icons 8</a>.
+                                   MCI is widely known as a prestigious online business, not only because of its Fantastic Pay Out but also the Free Tour Program which has successfully sent thousands of its members to various popular tourist destinations in the world.
                                 </p>
                             </div>
                         </div>
@@ -35,16 +31,16 @@
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="{{asset('frontend')}}/assets/img/banner_img_02.jpg" alt="">
+                            <img class="img-fluid" src="{{asset('frontend')}}/assets/img/banner_img_02.png" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
-                                <h1 class="h1">Proident occaecat</h1>
-                                <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                                <h1 class="h1">Millionaire Club Indonesia</h1>
+                                <h3 class="h2">Proff not Promise</h3>
                                 <p>
-                                    You are permitted to use this Zay CSS template for your commercial websites.
-                                    You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
+                                    MCI helps thousands of its members transition from a monthly income paradigm to earning three times in a single day. The diverse backgrounds of successful leaders once again prove that this business is for everyone.
                                 </p>
+
                             </div>
                         </div>
                     </div>
@@ -70,12 +66,6 @@
                 </div>
             </div>
         </div>
-        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="{{asset('frontend')}}/#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
-            <i class="fas fa-chevron-left"></i>
-        </a>
-        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="{{asset('frontend')}}/#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
-            <i class="fas fa-chevron-right"></i>
-        </a>
     </div>
     <!-- End Banner Hero -->
 
@@ -84,28 +74,29 @@
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Categories of The Month</h1>
-                <p>
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                </p>
+                <h1 class="h1">Option For You</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-3 p-5 mt-3">
                 <a href="{{asset('frontend')}}/#"><img src="{{asset('frontend')}}/assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
-                <h5 class="text-center mt-3 mb-3">Watches</h5>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <h5 class="text-center mt-3 mb-3">Health Care</h5>
+                <p class="text-center"><a href="/product/health" class="btn btn-success">See more</a></p>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-3 p-5 mt-3">
                 <a href="{{asset('frontend')}}/#"><img src="{{asset('frontend')}}/assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <h2 class="h5 text-center mt-3 mb-3">Fashion</h2>
+                <p class="text-center"><a href="/product/fashion" class="btn btn-success">See more</a></p>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-3 p-5 mt-3">
                 <a href="{{asset('frontend')}}/#"><img src="{{asset('frontend')}}/assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-                <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+                <h2 class="h5 text-center mt-3 mb-3">Body Care</h2>
+                <p class="text-center"><a href="/product/body" class="btn btn-success">See more</a></p>
+            </div>
+            <div class="col-12 col-md-3 p-5 mt-3">
+                <a href="{{asset('frontend')}}/#"><img src="{{asset('frontend')}}/assets/img/category_img_04.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Marvel Series</h2>
+                <p class="text-center"><a href="/product/marvel" class="btn btn-success">See more</a></p>
             </div>
         </div>
     </section>
@@ -113,7 +104,7 @@
 
 
     <!-- Start Featured Product -->
-    <section class="bg-light">
+    {{-- <section class="bg-light">
         <div class="container py-5">
             <div class="row text-center py-3">
                 <div class="col-lg-6 m-auto">
@@ -199,7 +190,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- End Featured Product -->
 
     @endsection

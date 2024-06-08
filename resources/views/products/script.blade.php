@@ -11,7 +11,7 @@
             // dom: 'Bfrtip',
             // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
-                url: '/product/all',
+                url: '/product/datatables',
                 type: 'GET',
                 "serverSide": true,
                 "processing": true,

@@ -113,9 +113,11 @@ public function update(Request $request, $id)
     }
 
     if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($product->photo) {
-            unlink(public_path( $product->photo));
+        // Hapus foto lama jika ada dan file benar-benar ada
+        if ($product->photo && file_exists(public_path($product->photo))) {
+            unlink(public_path($product->photo));
+        } else {
+            Log::warning('File not found: ' . public_path($product->photo));
         }
         // Simpan foto baru
         $photo = $request->file('photo');
@@ -138,6 +140,7 @@ public function update(Request $request, $id)
     return response()->json(['product' => $product]);
 }
 
+
 public function show($id)
 {
            $product = Product::with('categories')->find($id);
@@ -157,8 +160,8 @@ public function destroy($id)
         return response()->json(['error' => 'Data not found'], 404);
     }
 
-    // Hapus foto jika ada
-    if ($product->photo) {
+    // Hapus foto jika ada dan file benar-benar ada
+    if ($product->photo && file_exists(public_path($product->photo))) {
         unlink(public_path($product->photo));
     }
 
@@ -167,6 +170,7 @@ public function destroy($id)
 
     return response()->json([], 204);
 }
+
 
 public function search(Request $request)
 {
