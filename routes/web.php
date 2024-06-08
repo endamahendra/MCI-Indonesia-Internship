@@ -18,6 +18,36 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\FrontController;
 
 
+/////////////////////////////////////////ROUTE PUBLIC/////////////////////////////////////////////////////////
+//AUTH USER
+Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
+Route::post('/signin', [AuthUserController::class, 'login'])->name('login-user');
+
+//PENCARIAN PRODUK
+Route::get('/products/search', [ProductController::class, 'search']);
+Route::get('products/best-selling', [OrderController::class, 'getBestSellingProducts'])->name('products.best-selling');
+
+//GOOGLE LOGIN
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/callback/google', [GoogleController::class, 'handleGoogleCallback'])->name('login.google.callback');
+
+// RATING
+Route::get('/ratings', [RatingController::class, 'index']);
+Route::post('/ratings', [RatingController::class, 'store']);
+Route::put('/ratings/{id}', [RatingController::class, 'update']);
+Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
+Route::get('/ratings/product/{product_id}', [RatingController::class, 'getByProduct']);
+
+
+Route::get('/product/datatables', [ProductController::class, 'getdata']);
+Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/artikel/datatables', [ArtikelController::class, 'getdata']);
+Route::get('/artikel/{id}', [ArtikelController::class, 'show']);
+Route::get('/travel-package/datatables', [TravelPackageController::class, 'getdata'])->name('travel-data');
+Route::get('/travel-package/{id}', [TravelPackageController::class, 'show']);
+Route::get('/penggunas/{id}', [PenggunaController::class, 'show']);
+=======
+
 
 Route::middleware(['cors'])->group(function () {
     Route::get('/', [FrontController::class, 'index'])->name('home');
@@ -62,7 +92,7 @@ Route::middleware(['front'])->group(function () {
 ///////////////////////////////////////ROUTE UNTUK ADMIN////////////////////////////////////////////////////////
 Route::middleware(['admin'])->group(function () {
 
-    //PENGGUNA
+//PENGGUNA
 Route::delete('/penggunas/{id}', [PenggunaController::class, 'destroy']);
 
 //DASHBOARD
@@ -108,6 +138,8 @@ Route::delete('/admin/{id}', [UserController::class, 'destroy']);
 //ORDER
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/datatables', [OrderController::class, 'getdata'])->name('orders.data');
+Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 //PAKET WISATA
 Route::get('/travel-package', [TravelPackageController::class, 'index'])->name('travel-package');
