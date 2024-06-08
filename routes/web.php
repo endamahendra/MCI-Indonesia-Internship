@@ -17,8 +17,7 @@ use App\Http\Controllers\UserRewardController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\FrontController;
 
-Route::middleware(['cors'])->group(function () {
-});
+
 /////////////////////////////////////////ROUTE PUBLIC/////////////////////////////////////////////////////////
 //AUTH USER
 Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
@@ -47,11 +46,37 @@ Route::get('/artikel/{id}', [ArtikelController::class, 'show']);
 Route::get('/travel-package/datatables', [TravelPackageController::class, 'getdata'])->name('travel-data');
 Route::get('/travel-package/{id}', [TravelPackageController::class, 'show']);
 Route::get('/penggunas/{id}', [PenggunaController::class, 'show']);
+=======
+
+
+Route::middleware(['cors'])->group(function () {
+    Route::get('/', [FrontController::class, 'index'])->name('home');
+    Route::get('/f/product', [FrontController::class, 'product'])->name('product');
+    Route::get('/product/datatables', [ProductController::class, 'all']);
+    Route::get('/kategori/all', [CategoryController::class, 'all']);
+    Route::get('/products/search', [ProductController::class, 'search']);
+    Route::get('products/best-selling', [OrderController::class, 'getBestSellingProducts'])->name('products.best-selling');
+    Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
+    Route::post('/signin', [AuthUserController::class, 'login'])->name('login-user');
+    Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
+    Route::get('/callback/google', [GoogleController::class, 'handleGoogleCallback'])->name('login.google.callback');
+    Route::get('/ratings', [RatingController::class, 'index']);
+    Route::post('/ratings', [RatingController::class, 'store']);
+    Route::put('/ratings/{id}', [RatingController::class, 'update']);
+    Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);
+    Route::get('/ratings/product/{product_id}', [RatingController::class, 'getByProduct']);
+    Route::get('/product/{id}', [ProductController::class, 'show']);
+    Route::get('/artikel/datatables', [ArtikelController::class, 'getdata']);
+    Route::get('/artikel/{id}', [ArtikelController::class, 'show']);
+    Route::get('/travel-package/datatables', [TravelPackageController::class, 'getdata'])->name('travel-data');
+    Route::get('/travel-package/{id}', [TravelPackageController::class, 'show']);
+    Route::get('/penggunas/{id}', [PenggunaController::class, 'show']);
+});
 
 
 ///////////////////////////////////////ROUTE UNTUK ADMIN DAN USER//////////////////////////////////////////////
 Route::middleware(['front', 'api'])->group(function () {
-// MASUKKAN ROUTE KESINI
+
 });
 
 Route::get('/penggunas', [PenggunaController::class, 'index'])->name('pengguna');

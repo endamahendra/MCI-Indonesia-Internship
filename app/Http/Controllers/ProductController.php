@@ -20,31 +20,27 @@ class ProductController extends Controller
         return view('products.index', compact('categorys'));
     }
 
-public function getdata()
+public function all()
 {
-    $products = Product::get();
-    foreach ($products as $product) {
+    $products = Product::all();
+    $products->each(function($product) {
         $ratings = $product->users()->pluck('rating');
         $ratingcategories = $product->categories()->pluck('nama_kategori');
         $totalRatings = $ratings->count();
         $maxRating = 5;
         $averageRating = $ratings->avg();
-        $product->average_rating = $averageRating;
+        $product->average_rating = $averageRating ?? "belum ada rating";
         $product->total_ratings = $totalRatings;
         $product->max_rating = $maxRating;
         $product->nama_kategori = $ratingcategories;
-    }
+    });
 
-    return DataTables::of($products)
-        ->addColumn('rating', function ($product) {
-            if ($product->average_rating) {
-                return number_format($product->average_rating, 1) . '/' . $product->max_rating . ' of ' . $product->total_ratings . ' Pelanggan';
-            } else {
-                return 'Belum ada rating';
-            }
-        })
-        ->make(true);
+    return response()->json([
+        'data' => $products,
+        'status' => 'success',
+    ]);
 }
+
 
 
 public function store(Request $request)
@@ -117,9 +113,11 @@ public function update(Request $request, $id)
     }
 
     if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($product->photo) {
-            unlink(public_path( $product->photo));
+        // Hapus foto lama jika ada dan file benar-benar ada
+        if ($product->photo && file_exists(public_path($product->photo))) {
+            unlink(public_path($product->photo));
+        } else {
+            Log::warning('File not found: ' . public_path($product->photo));
         }
         // Simpan foto baru
         $photo = $request->file('photo');
@@ -142,6 +140,7 @@ public function update(Request $request, $id)
     return response()->json(['product' => $product]);
 }
 
+
 public function show($id)
 {
            $product = Product::with('categories')->find($id);
@@ -161,8 +160,8 @@ public function destroy($id)
         return response()->json(['error' => 'Data not found'], 404);
     }
 
-    // Hapus foto jika ada
-    if ($product->photo) {
+    // Hapus foto jika ada dan file benar-benar ada
+    if ($product->photo && file_exists(public_path($product->photo))) {
         unlink(public_path($product->photo));
     }
 
@@ -171,6 +170,7 @@ public function destroy($id)
 
     return response()->json([], 204);
 }
+
 
 public function search(Request $request)
 {
@@ -210,7 +210,5 @@ public function search(Request $request)
     return response()->json(['products' => $products]);
 }
 
-
-
-
  }
+

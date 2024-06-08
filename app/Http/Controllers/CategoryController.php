@@ -20,7 +20,14 @@ class CategoryController extends Controller
             return DataTables::of($categorys)->make(true);
         }
 
-
+        public function all()
+        {
+                $categories = Category::all();
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $categories
+                ]);
+        }
         public function store(Request $request)
         {
             $validator = Validator::make($request->all(), [

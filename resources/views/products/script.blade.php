@@ -53,7 +53,7 @@
                                 }
                             }
                         },
-                        { data: 'rating'},
+                        { data: 'average_rating'},
 
                 {
                     data: 'created_at',
