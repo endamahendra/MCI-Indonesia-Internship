@@ -15,8 +15,10 @@ use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\UserRewardController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\FrontController;
 
-
+Route::middleware(['cors'])->group(function () {
+});
 /////////////////////////////////////////ROUTE PUBLIC/////////////////////////////////////////////////////////
 //AUTH USER
 Route::post('/signup', [AuthUserController::class, 'register'])->name('register-user');
@@ -65,7 +67,7 @@ Route::middleware(['front'])->group(function () {
 ///////////////////////////////////////ROUTE UNTUK ADMIN////////////////////////////////////////////////////////
 Route::middleware(['admin'])->group(function () {
 
-    //PENGGUNA
+//PENGGUNA
 Route::delete('/penggunas/{id}', [PenggunaController::class, 'destroy']);
 
 //DASHBOARD
@@ -111,6 +113,8 @@ Route::delete('/admin/{id}', [UserController::class, 'destroy']);
 //ORDER
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/datatables', [OrderController::class, 'getdata'])->name('orders.data');
+Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 //PAKET WISATA
 Route::get('/travel-package', [TravelPackageController::class, 'index'])->name('travel-package');

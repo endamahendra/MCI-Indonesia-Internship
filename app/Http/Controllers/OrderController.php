@@ -172,4 +172,25 @@ class OrderController extends Controller
 
         return response()->json(['best_selling_products' => $bestSellingProducts]);
     }
+
+    public function updateStatus(Request $request, $orderId)
+    {
+        $request->validate([
+            'status' => 'required|in:diproses,selesai,batal'
+        ]);
+
+        $order = Order::findOrFail($orderId);
+        $order->status = $request->status;
+        $order->save();
+
+        return response()->json(['message' => 'Order status updated successfully']);
+    }
+
+    public function show($id)
+    {
+        $order = Order::with('products')->findOrFail($id);
+
+        return view('orders.show', compact('order'));
+    }
+
 }
