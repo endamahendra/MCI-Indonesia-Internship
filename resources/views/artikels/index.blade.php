@@ -34,7 +34,8 @@
                             <i class="bi-plus-circle me-2"></i>Tambah Data
                         </button>
                     </div>
-                    <table class="table table-striped" id="tableArtikel">
+                    <div class="table-responsive">
+                    <table class="table " id="tableArtikel">
                         <thead>
                             <tr>
                                 <th>Judul</th>
@@ -49,6 +50,7 @@
 
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </section>

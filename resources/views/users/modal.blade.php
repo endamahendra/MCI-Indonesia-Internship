@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form class="row g-3" id="userForm">
                     @csrf
-                    <input type="hidden" id="id">papp
+                    <input type="hidden" id="id">
                     <div class="col-md-12">
                         <input type="text" id="name" class="form-control" placeholder="Nama Admin">
                     </div>

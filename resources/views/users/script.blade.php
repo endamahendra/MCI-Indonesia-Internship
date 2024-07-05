@@ -10,7 +10,7 @@ $(document).ready(function() {
         // dom: 'Bfrtip',
         // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         ajax: {
-            url: '/admin/datatables',
+            url: `{{ route('user.data') }}`,
             type: 'GET',
             "serverSide": true,
             "processing": true,

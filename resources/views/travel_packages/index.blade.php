@@ -28,7 +28,7 @@
                     <i class="bi-plus-circle me-2"></i>Tambah Data
                 </button>
             </div>
-                <table class="table table-striped" id="tableTravelPackage">
+                <table class="table " id="tableTravelPackage">
                     <thead>
                         <tr>
                             <th>Deskripsi</th>

@@ -12,7 +12,7 @@
             // dom: 'Bfrtip',
             // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
-                url: '/kategori-artikel/datatables',
+                url: `{{ route('kategori-artikel.datatables') }}`,
                 type: 'GET',
                 "serverSide": true,
                 "processing": true,

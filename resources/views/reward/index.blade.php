@@ -23,7 +23,7 @@
 
             <div class="card-body">
             <h5 class="card-title">Data Reward</h5>
-                <table class="table table-striped" id="tableTravelPackage">
+                <table class="table " id="tableTravelPackage">
                     <thead>
                         <tr>
                             <th>Nama Pelanggan</th>

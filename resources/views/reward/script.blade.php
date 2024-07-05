@@ -27,7 +27,7 @@
 
         $('#tableTravelPackage').DataTable({
             ajax: {
-                url: '/reward/datatables',
+                url: `{{ route('reward.data') }}`,
                 type: 'GET',
                 serverSide: true,
                 processing: true,

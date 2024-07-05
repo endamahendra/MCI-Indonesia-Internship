@@ -37,5 +37,8 @@ class VerifyCsrfToken extends Middleware
         '/artikel',
         '/ratings',
         '/ratings/*',
+        '/discussions/*',
+        '/comments',
+        '/comments/*',
     ];
 }

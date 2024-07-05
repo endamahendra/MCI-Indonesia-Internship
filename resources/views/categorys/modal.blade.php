@@ -11,11 +11,10 @@
                     @csrf
                     <input type="hidden" id="id">
                     <div class="col-md-12">
-                        <input type="text" id="nama_kategori" class="form-control" placeholder="Nama Kategori">
+                        <input type="text" id="nama_kategori" class="form-control" placeholder="Nama Kategori" oninput="generateDeskripsi()">
                     </div>
-                    <div class="col-md-12">
-                        <input type="text" id="deskripsi" class="form-control" placeholder="Deskripsi">
-                    </div>
+
+                        <input type="hidden" id="deskripsi">
                 </form>
             </div>
             <div class="modal-footer">
@@ -27,3 +26,10 @@
         </div>
     </div>
 </div>
+<script>
+        function generateDeskripsi() {
+        var namaKategoriValue = document.getElementById('nama_kategori').value;
+        var deskripsiValue = namaKategoriValue.trim().toLowerCase().replace(/\s+/g, '-');
+        document.getElementById('deskripsi').value = deskripsiValue;
+    }
+</script>

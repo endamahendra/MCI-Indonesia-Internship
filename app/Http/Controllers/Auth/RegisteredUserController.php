@@ -53,11 +53,6 @@ public function store(Request $request)
 
         Auth::login($user);
 
-        // Return JSON response
-        return response()->json([
-            'message' => 'Registration successful.',
-            'user' => $user,
-            'token' => $token,
-        ]);
+        return redirect()->route('home')->with('status', 'Registration successful.');
     }
 }

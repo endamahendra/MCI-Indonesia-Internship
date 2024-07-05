@@ -19,14 +19,11 @@ class PenggunaController extends Controller
     public function getdata()
     {
         $penggunas = User::where('role', 'user')->get();
-        return DataTables::of($penggunas)
-        ->make(true);
+        return DataTables::of($penggunas)->make(true);
     }
 
 public function update(Request $request, $id)
 {
-
-// Mengambil user_id dari Auth
 $token = $request->bearerToken();
 $userData = JWTAuth::setToken($token)->getPayload()->toArray();
 $user_id = $userData['sub'];
@@ -34,8 +31,6 @@ $user_id = $userData['sub'];
 if ($user_id != $id) {
     return response()->json(['error' => 'Unauthorized'], 401);
 }
-
-// Dapatkan pengguna yang sedang diautentikasi dari token bearer
 $user = User::find($user_id);
 if (!$user) {
     return response()->json(['error' => 'Unauthorized'], 401);

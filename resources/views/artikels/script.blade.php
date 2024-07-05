@@ -12,7 +12,7 @@
             // dom: 'Bfrtip',
             // buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
-                url: '/artikel/datatables',
+                url: `{{ route('artikel.data') }}`,
                 type: 'GET',
                 "serverSide": true,
                 "processing": true,
@@ -98,7 +98,7 @@ function saveArtikel() {
         },
         error: function (error) {
             let errorMessage = '';
-            const errorData = error.responseJSON.errors;
+            const errorData = error.responseJSON.error;
             for (let key in errorData) {
                 if (errorData.hasOwnProperty(key)) {
                     errorMessage += errorData[key][0] + '\n';
@@ -142,7 +142,7 @@ function saveArtikel() {
                     $(this).prop('selected', true);
                 }
             });
-            
+
                 $('#artikelFormModalLabel').text('Form Edit Artikel');
                 $('#simpanArtikel').text('Simpan Perubahan');
                 $('#artikelFormModal').modal('show');
@@ -204,8 +204,12 @@ function saveArtikel() {
 
     // Fungsi untuk menghapus isi form yang sudah diisi
     function clearForm() {
-        $('#artikelFormModalLabel').text('Form Tambah Artikel');
         $('#simpanArtikel').text('Simpan');
         $('#artikelForm')[0].reset();
+        $('#artikelFormModalLabel').text('Form Tambah Artikel');
+        $('#kategoriartikels').val('').trigger('change');
+        $('#konten').val('');
+        $('#id').val('');
+        $('#photo-preview').attr('src', '');
     }
 </script>

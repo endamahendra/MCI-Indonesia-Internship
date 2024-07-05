@@ -11,7 +11,7 @@
             // dom: 'Bfrtip',
             // buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
             ajax: {
-                url: '/travel-package/datatables',
+                url: `{{ route('travel.data') }}`,
                 type: 'GET',
                 "serverSide": true,
                 "processing": true,

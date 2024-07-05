@@ -111,7 +111,7 @@
 
   <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
   <script src="{{asset('assets/js/main.js')}}"></script>
-  <script>
+  <script> 
 function formatRupiah(angka, prefix) {
     var number_string = angka.toString().replace(/[^,\d]/g, ''),
         split = number_string.split(','),

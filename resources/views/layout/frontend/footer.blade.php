@@ -8,15 +8,15 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            123 Consectetur at ligula 10660
+                            Jl. Semangka Raya No.16, RT.7/RW.6, Jatipulo, Kec. Palmerah, Jakarta, Daerah Khusus Ibukota Jakarta 11430
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="{{asset('frontend')}}/tel:010-020-0340">010-020-0340</a>
+                            <a class="text-decoration-none" href="https://wa.me/6281958898182/?text=Hallo%2C%20saya%20tertarik%20dengan%20produk%20anda." target="_blank">0819 5889 8182</a>
                         </li>
                         <li>
                             <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="{{asset('frontend')}}/mailto:info@company.com">info@company.com</a>
+                            <a class="text-decoration-none" href="mailto:info@mci-world.com">info@mci-world.com</a>
                         </li>
                     </ul>
                 </div>
@@ -24,24 +24,18 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Sport Wear</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Men's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Women's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Popular Dress</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Gym Accessories</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Sport Shoes</a></li>
+                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Navigasi</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Home</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Shop Locations</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">FAQs</a></li>
-                        <li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Contact</a></li>
+                        <li><a class="text-decoration-none" href="/">Home</a></li>
+                        <li><a class="text-decoration-none" href="/f/about">Tentang Kami</a></li>
+                        <!--<li><a class="text-decoration-none" href="{{asset('frontend')}}/#">Lokasi Toko</a></li>-->
+                        <li><a class="text-decoration-none" href="/f/news">Artikel</a></li>
+                        <li><a class="text-decoration-none" href="https://wa.me/6281958898182/?text=Hallo%2C%20saya%20tertarik%20dengan%20produk%20anda." target="_blank"">Kontak Kami</a></li>
                     </ul>
                 </div>
 
@@ -54,25 +48,15 @@
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="{{asset('frontend')}}/http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.facebook.com/MCIWorld.id/?locale=id_ID"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="{{asset('frontend')}}/https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/mciofficial/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="{{asset('frontend')}}/https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="{{asset('frontend')}}/https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank" href="https://x.com/i/flow/login?redirect_after_login=%2Findonesiamci"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
                         </li>
                     </ul>
-                </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -82,8 +66,8 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2021 Company Name
-                            | Designed by <a rel="sponsored" href="{{asset('frontend')}}/https://templatemo.com" target="_blank">TemplateMo</a>
+                            Copyright &copy; 2024 MCI Indonesia
+                            | Designed by <a rel="sponsored" href="http://www.randamahendra.my.id/baru" target="_blank">Randa M</a>
                         </p>
                     </div>
                 </div>

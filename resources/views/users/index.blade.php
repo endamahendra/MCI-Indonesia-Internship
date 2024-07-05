@@ -27,7 +27,7 @@
                     <i class="bi-plus-circle me-2"></i>Tambah Data
                 </button>
             </div>
-                <table class="table table-striped" id="tableUser">
+                <table class="table" id="tableUser">
                     <thead>
                         <tr>
                             <th>Nama Admin</th>

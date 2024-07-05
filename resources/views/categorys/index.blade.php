@@ -26,11 +26,12 @@
                     <i class="bi-plus-circle me-2"></i>Tambah Data
                 </button>
             </div>
-                <table class="table table-striped" id="tableCategory">
+                                <div class="table-responsive">
+                <table class="table " id="tableCategory">
                     <thead>
                         <tr>
                             <th>Nama Kategori</th>
-                            <th>Deskripsi</th>
+                            <th>Slug</th>
                             <th>Dibuat pada</th>
                             <th>Aksi</th>
                         </tr>
@@ -39,6 +40,7 @@
 
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
 

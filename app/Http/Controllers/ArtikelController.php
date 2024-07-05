@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Artikel;
+use App\Models\Comment;
+use App\Models\User;
 use App\Models\KategoriArtikel;
 use App\Models\KategoriWArtikel;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use DataTables;
-// use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Validation\Rule;
 
 class ArtikelController extends Controller
 {
@@ -36,7 +40,7 @@ class ArtikelController extends Controller
 {
     $validator = Validator::make($request->all(), [
         'kategoriartikel_id' => 'required|array',
-        'judul' => 'required',
+        'judul' => 'required|unique:artikels,judul',
         'konten' => 'required',
         'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
@@ -86,7 +90,10 @@ public function update(Request $request, $id)
 {
     $validator = Validator::make($request->all(), [
         'kategoriartikel_id' => 'required|array',
-        'judul' => 'required',
+        'judul' => [
+            'required',
+            Rule::unique('artikels', 'judul')->ignore($id, 'id')
+        ],
         'konten' => 'required',
     ]);
 
@@ -164,5 +171,75 @@ public function destroy($id)
     ], 204);
 }
 
+public function commentStore(Request $request)
+{
+    try {
+        $token = $request->bearerToken();
+        $userData = JWTAuth::setToken($token)->getPayload()->toArray();
+        $user_id = $userData['sub'];
 
+        $user = User::findOrFail($user_id);
+
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+            'artikel_id' => 'exists:artikels,id',
+            'parent_id' => 'nullable|exists:comments,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $comment = Comment::create([
+            'user_id' => $user_id,
+            'artikel_id' => $request->artikel_id,
+            'parent_id' => $request->parent_id,
+            'content' => $request->content,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Komentar Anda berhasil ditambahkan.',
+            'comment' => $comment,
+        ], Response::HTTP_CREATED);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to store comment.',
+            'error' => $e->getMessage(),
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
+
+public function showDiskusi(Request $request)
+{
+    try {
+        $comments = Comment::whereNull('artikel_id')->get();
+        if ($comments->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No comments found for this article.',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        // Response JSON berhasil dengan data komentar
+        return response()->json([
+            'success' => true,
+            'comments' => $comments,
+        ], Response::HTTP_OK);
+
+    } catch (\Exception $e) {
+        // Tangkap dan tangani exception jika terjadi
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch comments.',
+            'error' => $e->getMessage(),
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
 }

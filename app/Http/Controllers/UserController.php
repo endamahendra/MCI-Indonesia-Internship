@@ -7,6 +7,9 @@ use App\Models\User;
 use Validator;
 use DataTables;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
+use Session;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -97,4 +100,93 @@ public function destroy($id): JsonResponse
         return response()->json(['message' => 'Gagal menghapus data pengguna.'], 500);
     }
 }
+
+public function updateUser(Request $request, $id)
+{
+    $user = User::find($id);
+    return view ('front.updateuser', compact('user'));
+}
+
+
+public function updateUserstore(Request $request, $id)
+{
+    $user = User::find($id);
+    $validator = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255',
+        'tanggal_lahir' => 'required|date',
+        'no_hp' => 'required|string|max:15',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'alamat' => 'required|string|max:255',
+        'current_password' => 'nullable|string|min:8', // Validasi password lama
+        'new_password' => 'nullable|string|min:8|different:current_password', // Validasi password baru
+        'new_password_confirmation' => 'nullable|string|same:new_password', // Validasi konfirmasi password baru
+    ]);
+
+    try {
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->tanggal_lahir = $request->tanggal_lahir;
+        $user->no_hp = $request->no_hp;
+        $user->jenis_kelamin = $request->jenis_kelamin;
+        $user->alamat = $request->alamat;
+
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                throw ValidationException::withMessages(['current_password' => 'Password lama tidak sesuai.']);
+            }
+            $user->password = bcrypt($request->new_password);
+        }
+        $user->save();
+
+        // Set pesan sukses
+        Session::flash('success', 'Profil berhasil diperbarui');
+        return redirect()->back();
+    } catch (ValidationException $e) {
+        // Set pesan error validasi dan kembalikan input yang sudah dimasukkan
+        Session::flash('error', 'Gagal memperbarui profil: ' . $e->getMessage());
+        return redirect()->back()->withErrors($validator)->withInput();
+    } catch (\Exception $e) {
+        // Set pesan error umum
+        Session::flash('error', 'Gagal memperbarui profil: ' . $e->getMessage());
+        return redirect()->back();
+    }
+}
+
+public function updateUserfoto(Request $request, $id)
+{
+    $user = User::find($id);
+
+    // Validasi input foto baru
+    $request->validate([
+        'new_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // maksimum 2MB
+    ]);
+
+    // Mengunggah foto baru dan menghapus foto lama jika ada
+    if ($request->hasFile('new_photo')) {
+        $image = $request->file('new_photo');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/pengguna'), $imageName);
+
+        // Hapus foto lama jika ada
+        if ($user->photo) {
+            $oldPhotoPath = public_path($user->photo);
+            if (file_exists($oldPhotoPath)) {
+                unlink($oldPhotoPath); // Hapus foto lama dari direktori
+            }
+        }
+
+        // Simpan nama foto baru dengan prefix direktori ke dalam database
+        $user->photo = 'images/pengguna/' . $imageName;
+        $user->save();
+
+        Session::flash('success', 'Foto profil berhasil diperbarui');
+        return redirect()->back();
+    }
+
+    Session::flash('error', 'Gagal mengunggah foto profil');
+    return redirect()->back();
+}
+
+
 }

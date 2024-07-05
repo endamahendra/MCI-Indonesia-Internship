@@ -13,13 +13,16 @@
             ajax: {
                 url: '/product/datatables',
                 type: 'GET',
+                dataType: 'json',
                 "serverSide": true,
                 "processing": true,
 
             },
             columns: [
                 { data: 'sku' },
-                { data: 'deskripsi' },
+                { data: 'deskripsi', render: function (data, type, row, meta) {
+                    return data.length > 50 ? data.substr(0, 50) + '...' : data;
+                }},
                 {
                     data: 'harga',
                     render: function(data, type, row) {

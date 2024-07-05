@@ -22,6 +22,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Data Order</h5>
+                <div class="table-responsive">
                 <table id="orders-table" class="table">
                     <thead>
                         <tr>
@@ -31,11 +32,14 @@
                             <th>Harga/satuan</th>
                             <th>Quantity</th>
                             <th>Total Harga</th>
+                            <th>Tanggal Kirim</th>
+                            <th>Resi</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                 </table>
+        </div>
         </div>
     </div>
 </section>

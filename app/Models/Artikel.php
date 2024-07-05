@@ -26,4 +26,8 @@ class Artikel extends Model
     {
         return $this->belongsToMany(KategoriArtikel::class, 'kategori_w_artikels');
     }
+    public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }

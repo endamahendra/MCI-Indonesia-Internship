@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     $('#tableUser').DataTable({
         ajax: {
-            url: '/pengguna/datatables',
+            url: `{{ route('pengunaa.data') }}`,
             type: 'GET',
             "serverSide": true,
             "processing": true,

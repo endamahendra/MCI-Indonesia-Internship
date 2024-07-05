@@ -7,13 +7,15 @@ class CategoryProduct extends Model
 {
     protected $table = 'category_product';
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
+    // Definisikan relasi ke Category
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    // Definisikan relasi ke Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

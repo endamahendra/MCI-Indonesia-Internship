@@ -30,14 +30,19 @@ class product extends Model
     {
         return $this->belongsToMany(User::class, 'ratings')->withPivot('rating')->withTimestamps();
     }
-    public function orderProducts()
+
+    public function order_product()
     {
-    return $this->hasMany(OrderProduct::class);
+        return $this->hasMany(OrderProduct::class, 'product_id', 'id');
     }
-public function ratings()
-{
-    return $this->hasMany(Rating::class);
-}
+        public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class, 'product_id', 'id');
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 
 
 }

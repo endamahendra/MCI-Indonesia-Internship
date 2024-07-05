@@ -22,12 +22,18 @@ class GoogleController extends Controller
         try {
             $user = Socialite::driver('google')->user();
             $finduser = User::where('social_id', $user->id)->first();
+            $finduserByEmail = User::where('email', $user->email)->first();
 
-            if ($finduser)
-            {
+            if ($finduser) {
                 Auth::login($finduser);
-                return redirect('/');
+                return redirect('/')->with('success', 'Login success');
+            } elseif ($finduserByEmail) {
+                // If user exists by email, update their social_id and log them in
+                $finduserByEmail->social_id = $user->id;
+                $finduserByEmail->save();
 
+                Auth::login($finduserByEmail);
+                return redirect('/')->with('success', 'Login success');
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
@@ -37,10 +43,9 @@ class GoogleController extends Controller
                     'password' => bcrypt('my-google'),
                     'role' => 'user',
                 ]);
-                $newUser->save();
+
                 Auth::login($newUser);
                 return redirect('/')->with('success', 'Login success');
-                // return Redirect::route('')->with('success', 'Login success');
             }
         } catch (Exception $e) {
             dd($e->getMessage());

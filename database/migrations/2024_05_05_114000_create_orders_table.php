@@ -14,6 +14,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->longText('link')->nullable();
+            $table->string('resi')->nullable();
+            $table->string('jasa_kirim')->nullable();
             $table->timestamps();
         });
     }
